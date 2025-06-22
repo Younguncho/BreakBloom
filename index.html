@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BreakBloom - A relaxation utility for mindful breaks with calming visuals.">
+    <title>BreakBloom</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1 class="logo">BreakBloom</h1>
+        <div class="controls">
+            <button class="fullscreen-btn" aria-label="Toggle full screen" title="Full Screen">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+            </button>
+            <button class="settings-btn" aria-label="Open settings" title="Settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l-.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="video-background">
+        <iframe id="youtube-video" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <div class="reminder-overlay" aria-hidden="true"></div>
+    </div>
+
+    <aside class="settings-sidebar" aria-hidden="true">
+        <h2>Settings</h2>
+        <button class="close-sidebar" aria-label="Close settings">✕</button>
+        <form class="settings-form">
+            <label for="theme-select">Themes:</label>
+            <select id="theme-select" aria-label="Select theme">
+                <option value="calming-oceanscapes">Calming Oceanscapes</option>
+                <option value="sensory-relaxation">Sensory Relaxation</option>
+                <option value="peaceful-night">Peaceful Night</option>
+                <option value="lava-lamp-meditation">Lava Lamp Meditation</option>
+                <option value="tropical-beach">Tropical Beach</option>
+                <option value="underwater-meditation">Underwater Meditation</option>
+                <option value="rain-forest-path">Rain on the Forest Path</option>
+                <option value="lofi-city">LoFi City</option>
+                <option value="cyberpunk-ambient">Cyberpunk Ambient Relaxation</option>
+                <option value="wildlife-nature">Wildlife Nature</option>
+            </select>
+
+            <label for="color-select">Color Scheme:</label>
+            <select id="color-select" aria-label="Select color scheme">
+                <option value="natural">Natural</option>
+                <option value="black-white">Black & White</option>
+                <option value="icy">Icy</option>
+                <option value="purple-sunset">Peaceful Purple Sunset</option>
+                <option value="wildflower">WildFlower</option>
+                <option value="seashore">By the Seashore</option>
+            </select>
+
+            <label for="sound-volume">Volume:</label>
+            <div class="volume-container">
+                <span class="mute-indicator" aria-hidden="true">🔇</span>
+                <input type="range" id="sound-volume" min="0" max="100" value="50" aria-label="Adjust video volume">
+            </div>
+
+            <fieldset>
+                <legend>Video Controls</legend>
+                <div class="video-controls">
+                    <button type="button" id="play-video" aria-label="Play video">Play</button>
+                    <button type="button" id="stop-video" aria-label="Stop video">Stop</button>
+                    <button type="button" id="restart-video" aria-label="Restart video">Start from Beginning</button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Reminders</legend>
+                <label class="toggle">
+                    <input type="checkbox" id="reminder-toggle" aria-label="Toggle reminders">
+                    <span>Enable Work Reminders</span>
+                </label>
+                <div class="reminder-options" style="display: none;">
+                    <label for="reminder-interval">Reminder Interval:</label>
+                    <select id="reminder-interval" aria-label="Select reminder interval">
+                        <option value="5">5 Minutes</option>
+                        <option value="10">10 Minutes</option>
+                        <option value="30">30 Minutes</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="number" id="custom-interval" min="1" placeholder="Custom minutes" style="display: none;" aria-label="Custom reminder interval">
+                    <div class="timer-controls">
+                        <button type="button" id="start-timer" aria-label="Start timer">Start</button>
+                        <button type="button" id="pause-timer" aria-label="Pause timer">Pause</button>
+                    </div>
+                    <div class="timer-display">
+                        <label>Time Remaining:</label>
+                        <span id="timer">00:00</span>
+                    </div>
+                    <button type="button" id="test-reminder" aria-label="Test reminder notification">Test Reminder</button>
+                </div>
+            </fieldset>
+        </form>
+    </aside>
+
+    <div class="reminder-popup" aria-hidden="true">
+        <p>Time to Work! Your Time has passed</p>
+        <button class="close-popup" aria-label="Close reminder">OK</button>
+    </div>
+
+    <div class="reminder-indicator" aria-hidden="true">
+        <span>Reminders: <span id="reminder-status">Off</span></span>
+    </div>
+
+    <script>
+        // Fullscreen toggle
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Settings sidebar toggle
+        const settingsBtn = document.querySelector('.settings-btn');
+        const sidebar = document.querySelector('.settings-sidebar');
+        const closeSidebar = document.querySelector('.close-sidebar');
+        settingsBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            sidebar.setAttribute('aria-hidden', 'false');
+        });
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            sidebar.setAttribute('aria-hidden', 'true');
+        });
+
+        // Theme selection
+        const themeSelect = document.querySelector('#theme-select');
+        const youtubeVideo = document.querySelector('#youtube-video');
+        const themes = {
+            'calming-oceanscapes': 'https://www.youtube.com/embed/aSk-D86aOtc?autoplay=1&loop=1&playlist=aSk-D86aOtc&enablejsapi=1',
+            'sensory-relaxation': 'https://www.youtube.com/embed/wjQq0nSGS28?autoplay=1&loop=1&playlist=wjQq0nSGS28&enablejsapi=1',
+            'peaceful-night': 'https://www.youtube.com/embed/DFZf9xBkxtw?autoplay=1&loop=1&playlist=DFZf9xBkxtw&enablejsapi=1',
+            'lava-lamp-meditation': 'https://www.youtube.com/embed/eLLfOVkp6so?autoplay=1&loop=1&playlist=eLLfOVkp6so&enablejsapi=1',
+            'tropical-beach': 'https://www.youtube.com/embed/nta1YhicoGw?autoplay=1&loop=1&playlist=nta1YhicoGw&enablejsapi=1',
+            'underwater-meditation': 'https://www.youtube.com/embed/f2AmEcp9kg0?autoplay=1&loop=1&playlist=f2AmEcp9kg0&enablejsapi=1',
+            'rain-forest-path': 'https://www.youtube.com/embed/SnUBb-FAlCY?autoplay=1&loop=1&playlist=SnUBb-FAlCY&enablejsapi=1',
+            'lofi-city': 'https://www.youtube.com/embed/Rh2Hlrg6ZEM?autoplay=1&loop=1&playlist=Rh2Hlrg6ZEM&enablejsapi=1',
+            'cyberpunk-ambient': 'https://www.youtube.com/embed/PpJQZH9B1Y4?autoplay=1&loop=1&playlist=PpJQZH9B1Y4&enablejsapi=1',
+            'wildlife-nature': 'https://www.youtube.com/embed/DP86kbUkpEI?autoplay=1&loop=1&playlist=DP86kbUkpEI&enablejsapi=1'
+        };
+        themeSelect.addEventListener('change', () => {
+            youtubeVideo.src = themes[themeSelect.value];
+            applyColorScheme();
+        });
+
+        // Color scheme selection
+        const colorSelect = document.querySelector('#color-select');
+        const applyColorScheme = () => {
+            const scheme = colorSelect.value;
+            youtubeVideo.style.filter = 
+                scheme === 'natural' ? 'none' :
+                scheme === 'black-white' ? 'grayscale(100%) brightness(0.8)' :
+                scheme === 'icy' ? 'hue-rotate(200deg) saturate(0.8) brightness(1.1)' :
+                scheme === 'purple-sunset' ? 'hue-rotate(270deg) saturate(1.2) brightness(0.9)' :
+                scheme === 'wildflower' ? 'hue-rotate(30deg) saturate(1.1) brightness(1.0)' :
+                scheme === 'seashore' ? 'hue-rotate(0deg) saturate(0.7) brightness(1.2)' : 'none';
+        };
+        colorSelect.addEventListener('change', applyColorScheme);
+
+        // Volume control with mute indicator
+        const soundVolume = document.querySelector('#sound-volume');
+        const muteIndicator = document.querySelector('.mute-indicator');
+        soundVolume.addEventListener('input', () => {
+            const volume = soundVolume.value;
+            muteIndicator.style.opacity = volume == 0 ? '1' : '0';
+            if (youtubeVideo.contentWindow) {
+                youtubeVideo.contentWindow.postMessage(
+                    JSON.stringify({
+                        event: 'command',
+                        func: volume == 0 ? 'mute' : 'unMute'
+                    }),
+                    '*'
+                );
+                if (volume > 0) {
+                    youtubeVideo.contentWindow.postMessage(
+                        JSON.stringify({
+                            event: 'command',
+                            func: 'setVolume',
+                            args: [volume]
+                        }),
+                        '*'
+                    );
+                }
+            }
+        });
+
+        // Video controls
+        const playVideoBtn = document.querySelector('#play-video');
+        const stopVideoBtn = document.querySelector('#stop-video');
+        const restartVideoBtn = document.querySelector('#restart-video');
+        playVideoBtn.addEventListener('click', () => {
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'playVideo' }),
+                '*'
+            );
+        });
+        stopVideoBtn.addEventListener('click', () => {
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'pauseVideo' }),
+                '*'
+            );
+        });
+        restartVideoBtn.addEventListener('click', () => {
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'seekTo', args: [0] }),
+                '*'
+            );
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'playVideo' }),
+                '*'
+            );
+        });
+
+        // Reminder toggle and options
+        const reminderToggle = document.querySelector('#reminder-toggle');
+        const reminderOptions = document.querySelector('.reminder-options');
+        const reminderInterval = document.querySelector('#reminder-interval');
+        const customInterval = document.querySelector('#custom-interval');
+        const startTimerBtn = document.querySelector('#start-timer');
+        const pauseTimerBtn = document.querySelector('#pause-timer');
+        const testReminderBtn = document.querySelector('#test-reminder');
+        const reminderPopup = document.querySelector('.reminder-popup');
+        const reminderOverlay = document.querySelector('.reminder-overlay');
+        const closePopup = document.querySelector('.close-popup');
+        const reminderStatus = document.querySelector('#reminder-status');
+        const reminderIndicator = document.querySelector('.reminder-indicator');
+        const timerDisplay = document.querySelector('#timer');
+
+        let timerInterval, isTimerPaused = true, timeLeft;
+        reminderToggle.addEventListener('change', () => {
+            reminderOptions.style.display = reminderToggle.checked ? 'block' : 'none';
+            reminderIndicator.setAttribute('aria-hidden', !reminderToggle.checked);
+            reminderStatus.textContent = reminderToggle.checked ? 'On' : 'Off';
+            reminderIndicator.classList.toggle('active', reminderToggle.checked);
+            if (!reminderToggle.checked) {
+                clearInterval(window.reminderTimer);
+                clearInterval(timerInterval);
+                timerDisplay.textContent = '00:00';
+                isTimerPaused = true;
+                youtubeVideo.contentWindow.postMessage(
+                    JSON.stringify({ event: 'command', func: 'playVideo' }),
+                    '*'
+                );
+            }
+        });
+
+        reminderInterval.addEventListener('change', () => {
+            customInterval.style.display = reminderInterval.value === 'custom' ? 'block' : 'none';
+            if (reminderToggle.checked && !isTimerPaused) {
+                startReminderTimer();
+            }
+        });
+
+        customInterval.addEventListener('input', () => {
+            if (reminderToggle.checked && !isTimerPaused) {
+                startReminderTimer();
+            }
+        });
+
+        startTimerBtn.addEventListener('click', () => {
+            if (reminderToggle.checked && isTimerPaused) {
+                isTimerPaused = false;
+                startReminderTimer();
+            }
+        });
+
+        pauseTimerBtn.addEventListener('click', () => {
+            if (reminderToggle.checked && !isTimerPaused) {
+                isTimerPaused = true;
+                clearInterval(window.reminderTimer);
+                clearInterval(timerInterval);
+            }
+        });
+
+        function startReminderTimer() {
+            clearInterval(window.reminderTimer);
+            clearInterval(timerInterval);
+            let interval = reminderInterval.value === 'custom' ? parseInt(customInterval.value) || 5 : parseInt(reminderInterval.value);
+            if (interval > 0) {
+                timeLeft = timeLeft || interval * 60;
+                timerInterval = setInterval(() => {
+                    if (!isTimerPaused) {
+                        timeLeft--;
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        if (timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                            timeLeft = interval * 60;
+                            timerInterval = setInterval(() => {
+                                if (!isTimerPaused) {
+                                    timeLeft--;
+                                    const minutes = Math.floor(timeLeft / 60);
+                                    const seconds = timeLeft % 60;
+                                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                                }
+                            }, 1000);
+                            reminderPopup.classList.add('show');
+                            reminderOverlay.classList.add('show');
+                            reminderPopup.setAttribute('aria-hidden', 'false');
+                            reminderOverlay.setAttribute('aria-hidden', 'false');
+                            youtubeVideo.contentWindow.postMessage(
+                                JSON.stringify({ event: 'command', func: 'pauseVideo' }),
+                                '*'
+                            );
+                        }
+                    }
+                }, 1000);
+                window.reminderTimer = setInterval(() => {
+                    if (!isTimerPaused) {
+                        reminderPopup.classList.add('show');
+                        reminderOverlay.classList.add('show');
+                        reminderPopup.setAttribute('aria-hidden', 'false');
+                        reminderOverlay.setAttribute('aria-hidden', 'false');
+                        youtubeVideo.contentWindow.postMessage(
+                            JSON.stringify({ event: 'command', func: 'pauseVideo' }),
+                            '*'
+                        );
+                    }
+                }, interval * 60 * 1000);
+            }
+        }
+
+        testReminderBtn.addEventListener('click', () => {
+            reminderPopup.classList.add('show');
+            reminderOverlay.classList.add('show');
+            reminderPopup.setAttribute('aria-hidden', 'false');
+            reminderOverlay.setAttribute('aria-hidden', 'false');
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'pauseVideo' }),
+                '*'
+            );
+        });
+
+        closePopup.addEventListener('click', () => {
+            reminderPopup.classList.remove('show');
+            reminderOverlay.classList.remove('show');
+            reminderPopup.setAttribute('aria-hidden', 'true');
+            reminderOverlay.setAttribute('aria-hidden', 'true');
+            youtubeVideo.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'playVideo' }),
+                '*'
+            );
+            if (reminderToggle.checked && !isTimerPaused) {
+                startReminderTimer();
+            }
+        });
+
+        // Initialize default theme
+        youtubeVideo.src = themes['calming-oceanscapes'];
+    </script>
+</body>
+</html>
