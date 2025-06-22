@@ -1,3 +1,44 @@
+/* CSS Variables for Theming */
+:root {
+    --background-color: #1a1a1a;
+    --text-color: #fff;
+    --secondary-text-color: #e0e0e0;
+    --button-bg-start: rgba(255, 255, 255, 0.08);
+    --button-bg-end: rgba(255, 255, 255, 0.04);
+    --button-border: rgba(255, 255, 255, 0.3);
+    --button-hover-bg-start: rgba(255, 255, 255, 0.12);
+    --button-hover-bg-end: rgba(255, 255, 255, 0.08);
+    --button-hover-border: rgba(255, 255, 255, 0.6);
+    --popup-bg: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
+    --sidebar-bg: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
+    --input-bg-start: rgba(255, 255, 255, 0.05);
+    --input-bg-end: rgba(255, 255, 255, 0.02);
+    --input-border: rgba(255, 255, 255, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.8);
+    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    --gradient-text: linear-gradient(90deg, #ffffff, #e0e0e0, #a0a0a0, #e0e0e0, #ffffff);
+}
+
+.light-mode {
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --secondary-text-color: #555;
+    --button-bg-start: rgba(0, 0, 0, 0.08);
+    --button-bg-end: rgba(0, 0, 0, 0.04);
+    --button-border: rgba(0, 0, 0, 0.3);
+    --button-hover-bg-start: rgba(0, 0, 0, 0.12);
+    --button-hover-bg-end: rgba(0, 0, 0, 0.08);
+    --button-hover-border: rgba(0, 0, 0, 0.6);
+    --popup-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    --sidebar-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    --input-bg-start: rgba(0, 0, 0, 0.05);
+    --input-bg-end: rgba(0, 0, 0, 0.02);
+    --input-border: rgba(0, 0, 0, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --gradient-text: linear-gradient(90deg, #333333, #555555, #777777, #555555, #333333);
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -6,25 +47,50 @@
 }
 
 body {
-    font-family: 'Cabin', sans-serif;
+    font-family: "Cabin", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
-    font-variation-settings: 'wdth' 100;
-    color: #fff;
-    background: #000;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    color: var(--text-color);
+    background: var(--background-color);
     overflow-x: hidden;
     position: relative;
+}
+
+/* Common Button Styles */
+button {
+    background: linear-gradient(to right, var(--button-bg-start), var(--button-bg-end));
+    border: 1px solid var(--button-border);
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    font-family: "Cabin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    padding: 0.5rem 1rem;
+}
+
+button:hover {
+    background: linear-gradient(to right, var(--button-hover-bg-start), var(--button-hover-bg-end));
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-color: var(--button-hover-border);
+    transform: translateY(-2px);
 }
 
 /* Video Background */
 .video-background {
     position: fixed;
-    top: 0;
+    top: -15%;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 130%;
     z-index: -1;
     overflow: hidden;
-    transform: scale(1.05);
 }
 
 #youtube-video {
@@ -41,7 +107,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 1001;
     opacity: 0;
     visibility: hidden;
@@ -51,6 +117,63 @@ body {
 .reminder-overlay.show {
     opacity: 1;
     visibility: visible;
+}
+
+/* Tutorial Popup */
+.tutorial-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: var(--popup-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    z-index: 1005;
+    max-width: 600px;
+    width: 95%;
+    transition: transform 0.4s ease, visibility 0.4s ease;
+    visibility: hidden;
+}
+
+.tutorial-popup.show {
+    transform: translate(-50%, -50%) scale(1);
+    visibility: visible;
+}
+
+.tutorial-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.tutorial-content h2 {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 1.8rem;
+    text-align: center;
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.tutorial-content p {
+    font-size: 1rem;
+    text-align: left;
+    color: var(--secondary-text-color);
+    text-shadow: var(--text-shadow);
+}
+
+.start-using-btn {
+    width: auto;
 }
 
 /* Header */
@@ -67,11 +190,14 @@ header {
 }
 
 .logo {
-    font-size: 2rem;
-    font-weight: 700;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 2.2rem;
+    text-shadow: 0 4px 12px var(--shadow-color);
+    animation: gradientFlow 3s infinite linear, fontWeightCycle 9s infinite ease-in-out;
+    background: var(--gradient-text);
     background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -80,56 +206,82 @@ header {
 
 .controls {
     display: flex;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
 .fullscreen-btn, .settings-btn {
     background: none;
     border: none;
-    color: #fff;
-    width: 45px;
-    height: 45px;
+    color: var(--text-color);
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s, color 0.3s;
+    text-shadow: 0 0 10px var(--shadow-color);
 }
 
 .fullscreen-btn:hover, .settings-btn:hover {
-    transform: scale(1.15);
-    color: #ddd;
-    animation: gradientHover 3s infinite linear;
-    background: linear-gradient(90deg, #fff, #ccc, #fff);
-    background-size: 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
+    transform: scale(1.1);
+    color: var(--secondary-text-color);
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
 /* Settings Sidebar */
 .settings-sidebar {
     position: fixed;
     top: 0;
-    right: -320px;
-    width: 320px;
+    right: -300px;
+    width: 300px;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
-    backdrop-filter: blur(12px);
-    padding: 2.5rem;
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
     z-index: 1003;
     transition: right 0.4s ease;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+    box-shadow: -8px 0 20px var(--shadow-color);
 }
 
 .settings-sidebar.open {
     right: 0;
 }
 
+.settings-scroll {
+    max-height: calc(100% - 3rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--button-border) var(--background-color);
+}
+
+.settings-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-scroll::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.settings-scroll::-webkit-scrollbar-thumb {
+    background: var(--button-border);
+    border-radius: 3px;
+}
+
+.settings-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--button-hover-border);
+}
+
 .settings-sidebar h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
+    font-weight: 700;
+    font-variation-settings: "wdth" 125;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
     background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -138,235 +290,142 @@ header {
 
 .close-sidebar {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.2rem;
+    right: 1.2rem;
     background: none;
     border: none;
-    color: #fff;
-    font-size: 1.8rem;
+    color: var(--text-color);
+    font-size: 1.5rem;
     cursor: pointer;
     transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
 }
 
 .close-sidebar:hover {
-    transform: rotate(180deg);
-    color: #ddd;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: rotate(90deg);
+    color: var(--secondary-text-color);
+    text-shadow: 0 0 8px var(--shadow-color);
 }
 
 .settings-form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.2rem;
+}
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.settings-group h3 {
+    font-weight: 600;
+    font-variation-settings: "wdth" 125;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .settings-form label {
-    font-weight: 500;
-    margin-bottom: 0.7rem;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    font-size: 0.95rem;
+    color: var(--secondary-text-color);
+    text-shadow: var(--text-shadow);
     transition: color 0.3s;
 }
 
 .settings-form label:hover {
-    color: #fff;
+    color: var(--text-color);
 }
 
-.settings-form select, .settings-form input[type="range"], .settings-form input[type="number"] {
-    padding: 0.7rem;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-    color: #fff;
-    border-radius: 8px;
+.settings-form select, .settings-form input[type="range"] {
+    padding: 0.5rem;
+    border: 1px solid var(--input-border);
+    background: linear-gradient(to right, var(--input-bg-start), var(--input-bg-end));
+    color: var(--text-color);
+    border-radius: 6px;
     transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px var(--shadow-color);
 }
 
-.settings-form select:hover, .settings-form input[type="range"]:hover, .settings-form input[type="number"]:hover {
-    border-color: rgba(255, 255, 255, 0.7);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+.settings-form select:hover, .settings-form input[type="range"]:hover {
+    border-color: var(--button-hover-border);
+    background: linear-gradient(to right, var(--input-bg-start), var(--input-bg-end));
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.settings-form select:focus, .settings-form input[type="range"]:focus, .settings-form input[type="number"]:focus {
-    border-color: rgba(255, 255, 255, 0.9);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+.settings-form select:focus, .settings-form input[type="range"]:focus {
+    border-color: var(--button-hover-border);
+    background: linear-gradient(to right, var(--input-bg-start), var(--input-bg-end));
+    box-shadow: 0 4px 16px var(--shadow-color);
     outline: none;
 }
 
 .settings-form select option {
-    background: #000;
-    color: #fff;
+    background: var(--background-color);
+    color: var(--text-color);
 }
 
 .volume-container {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .mute-indicator {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     opacity: 0;
     transition: opacity 0.3s ease;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    text-shadow: var(--text-shadow);
 }
 
 .settings-form input[type="range"] {
     -webkit-appearance: none;
-    height: 6px;
-    border-radius: 6px;
+    height: 5px;
+    border-radius: 5px;
     width: 100%;
 }
 
 .settings-form input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(to bottom, #fff, #aaa);
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(to bottom, var(--text-color), var(--secondary-text-color));
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 8px var(--shadow-color);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .settings-form input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.settings-form input[type="number"] {
-    width: 100%;
-}
-
-.settings-form fieldset {
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 2rem;
-    border-radius: 8px;
-    margin-top: 2rem;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-}
-
-.settings-form legend {
-    font-weight: 500;
-    padding: 0 0.7rem;
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
-    background-size: 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-.video-controls {
+.video-controls, .timer-controls {
     display: flex;
     gap: 0.5rem;
-    flex-wrap: wrap;
 }
 
-.video-controls button {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #fff;
-    padding: 0.7rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.video-controls button:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
-}
-
-.toggle {
+.video-controls button, .timer-controls button, #test-reminder {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.toggle input {
-    width: 45px;
-    height: 22px;
-    -webkit-appearance: none;
-    background: linear-gradient(to right, #000, #222);
-    border: 1px solid #fff;
-    border-radius: 11px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.toggle input:checked {
-    background: linear-gradient(to right, #fff, #ddd);
-    border-color: #000;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.toggle input::before {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: #fff;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-.toggle input:checked::before {
-    transform: translateX(23px);
-    background: #000;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.4);
-}
-
-.reminder-options {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.timer-controls {
-    display: flex;
+    justify-content: center;
     gap: 0.5rem;
-}
-
-.timer-controls button {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #fff;
-    padding: 0.7rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.timer-controls button:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
+    margin-top: 0.8rem;
 }
 
 .timer-display {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    color: var(--secondary-text-color);
+    text-shadow: var(--text-shadow);
+    margin-top: 0.8rem;
 }
 
 .timer-display label {
@@ -374,31 +433,71 @@ header {
 }
 
 #timer {
-    font-weight: 700;
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
+    font-weight: 600;
+    font-variation-settings: "wdth" 125;
+    font-size: 1.2rem;
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
     background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
-#test-reminder {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #fff;
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
 }
 
-#test-reminder:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
+.toggle input {
+    width: 36px;
+    height: 18px;
+    -webkit-appearance: none;
+    background: linear-gradient(to right, var(--background-color), var(--secondary-text-color));
+    border: 1px solid var(--text-color);
+    border-radius: 9px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    box-shadow: inset 0 2px 4px var(--shadow-color);
+}
+
+.toggle input:checked {
+    background: linear-gradient(to right, var(--text-color), var(--secondary-text-color));
+    border-color: var(--background-color);
+    box-shadow: inset 0 2px 4px var(--shadow-color);
+}
+
+.toggle input::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: var(--text-color);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.toggle input:checked::before {
+    transform: translateX(18px);
+    background: var(--background-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.toggle .mode-icon {
+    font-size: 1.2rem;
+}
+
+.reminder-options {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 }
 
 /* Reminder Popup */
@@ -407,16 +506,15 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
-    backdrop-filter: blur(12px);
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    background: var(--popup-bg);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px var(--shadow-color);
     text-align: center;
     z-index: 1004;
     transition: transform 0.4s ease;
     visibility: hidden;
-    animation: popIn 0.4s ease-out forwards;
 }
 
 .reminder-popup.show {
@@ -425,11 +523,11 @@ header {
 }
 
 .reminder-popup p {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    text-shadow: var(--text-shadow);
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
     background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -437,38 +535,24 @@ header {
 }
 
 .close-popup {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #fff;
-    padding: 0.7rem 1.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.close-popup:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
+    padding: 0.5rem 1rem;
 }
 
 /* Reminder Indicator */
 .reminder-indicator {
     position: fixed;
-    bottom: 1.5rem;
-    left: 1.5rem;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
+    bottom: 0.8rem;
+    left: 0.8rem;
+    background: var(--popup-bg);
     backdrop-filter: blur(8px);
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 0.4rem 0.7rem;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 0.75rem;
+    box-shadow: 0 4px 12px var(--shadow-color);
     transition: opacity 0.4s ease, transform 0.4s ease;
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
 }
 
 .reminder-indicator.active {
@@ -477,9 +561,10 @@ header {
 }
 
 #reminder-status {
-    font-weight: 700;
-    animation: gradientFlow 6s infinite linear;
-    background: linear-gradient(90deg, #fff, #aaa, #fff);
+    font-weight: 600;
+    font-variation-settings: "wdth" 125;
+    animation: gradientFlow 3s infinite linear;
+    background: var(--gradient-text);
     background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -492,15 +577,11 @@ header {
     100% { background-position: 200%; }
 }
 
-@keyframes gradientHover {
-    0% { background-position: 0%; }
-    100% { background-position: 200%; }
-}
-
-@keyframes popIn {
-    0% { transform: translate(-50%, -50%) scale(0); }
-    80% { transform: translate(-50%, -50%) scale(1.1); }
-    100% { transform: translate(-50%, -50%) scale(1); }
+@keyframes fontWeightCycle {
+    0% { font-weight: 100; }
+    33% { font-weight: 400; }
+    66% { font-weight: 700; }
+    100% { font-weight: 100; }
 }
 
 /* Responsive Design */
@@ -515,20 +596,36 @@ header {
     }
 
     .logo {
-        font-size: 1.7rem;
+        font-size: 1.8rem;
     }
 
     .controls button {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
     }
 
     .reminder-indicator {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
     }
 
     .reminder-popup p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+
+    .tutorial-popup {
+        max-width: 90%;
+    }
+
+    .tutorial-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .tutorial-content p {
+        font-size: 0.9rem;
+    }
+
+    #timer {
+        font-size: 1rem;
     }
 }
